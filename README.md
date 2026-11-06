@@ -9,29 +9,98 @@
 3. [数据库字典](docs/data-dictionary.md) 给出七张表及字段、所有者和迁移要求。
 4. [原始架构设计](docs/architecture-design.md) 保留完整设计依据与联动流程，实施差异以当前统一约定和代码为准。
 
-## 环境与构建
+## 从 GitHub clone 后首次运行
 
-沿用已有工程版本并锁定。AGP 9.5.1、Gradle 9.6.0、JDK/JBR 25、compileSdk/targetSdk 37、minSdk 24、Java 源代码级别 11。Android Studio 自带 JBR 可作 Gradle JDK。已验证本机 JBR 为 25.0.4。AndroidX 等依赖固定在 gradle/libs.versions.toml。
+协作者使用 Android Studio 按以下步骤完成首次配置。Gradle、AGP 和应用依赖会按仓库中的版本配置下载，本机准备好 Android SDK 和 JDK 25 后即可同步、运行。
 
-用 Android Studio 打开根目录，设置 SDK 并同步。local.properties 为本机 SDK 路径，不共享其绝对路径。命令行须确保 JAVA_HOME 指向 JDK 25。
+### 1 打开整个项目
+
+在 Android Studio 中选择 **Open**，打开 clone 得到的 `CampusEvents` 根目录。该目录包含 `settings.gradle.kts`、`gradlew.bat`、`app`、`core` 和 `feature`。首次打开时，允许 Android Studio 信任并导入该项目。
+
+### 2 安装 Android SDK
+
+打开 **Tools → SDK Manager**，确认已安装以下组件。
+
+- **SDK Platforms** 中的 Android API 37 平台，用于编译项目。
+- **SDK Tools** 中的 Android SDK Build-Tools 36.0.0，可勾选 Show Package Details 查找具体版本。
+- **SDK Tools** 中的 Android SDK Platform-Tools，用于连接和安装到设备。
+- 使用模拟器的协作者还需安装 Android Emulator，系统镜像在创建模拟器时下载。
+
+Android Studio 通常会根据本机 SDK 位置生成根目录的 `local.properties`。这个文件保存每个人自己的 SDK 路径，已加入 Git 忽略规则。若出现 SDK location not found，使用 SDK Manager 中显示的 Android SDK Location 配置本机 SDK，随后重新同步。
+
+### 3 确认构建使用 JDK 25
+
+打开 **File → Settings → Build, Execution, Deployment → Build Tools → Gradle**。macOS 从 Android Studio 的 Settings 进入同一页面。
+
+仓库的 `gradle/gradle-daemon-jvm.properties` 已将 Gradle 构建进程固定为 Java 25。界面若显示 **Gradle Daemon JVM Criteria**，确认版本为 **25**，并按提示下载或选择匹配的 JDK。界面若显示 **Gradle JDK**，选择本机的 JDK 25，或使用 **Download JDK** 下载 25。自带 JBR 的版本为 25 时，也可选择该 JBR。
+
+JDK 的安装目录由每个人在本机选择。项目中的 Java 11 表示业务代码采用的语言级别，运行构建工具使用的 JDK 为 25。Android Studio 的界面选项及两者的关系可参考官方说明。[Android 构建 JDK 配置](https://developer.android.com/build/jdks)
+
+### 4 同步项目
+
+点击 **Sync Project with Gradle Files**，等待同步完成。首次同步会下载仓库指定的 Gradle 9.6.0、AGP 9.5.1 和 AndroidX 等依赖，缺少匹配 JDK 时还可能下载 JDK。
+
+首次同步需要能够访问 Gradle、Google Maven、Maven Central 及 JDK 下载服务。下载失败时先检查本机网络和 Android Studio 的 HTTP Proxy 设置，再重新同步。若提示当前 Android Studio 不支持 AGP 9.5，升级 Android Studio 后重新打开项目。
+
+### 5 选择设备并运行
+
+- 使用模拟器时，在 **Tools → Device Manager** 中创建并启动设备。可选 API 37 系统镜像，该版本已完成本项目测试。
+- 使用手机时，打开开发者选项和 USB 调试，连接电脑并确认调试授权。应用支持 API 24 及以上的设备。
+- 在顶部运行配置中选择 **app**，选择设备，然后点击绿色 **Run ▶**。
+
+成功后会进入“北航活动通”，可以浏览三条演示活动，并通过下拉框选择管理员或学生身份。管理员可进入活动管理。当前 C、D 功能面板显示待接入，具体范围见下文“当前功能与演示”。
+
+### 首次配置完成的检查清单
+
+- [ ] Android Studio 的项目视图中能看到七个模块。
+- [ ] Gradle 同步成功。
+- [ ] Run 后设备上能打开北航活动通。
+- [ ] 能选择管理员身份并进入活动管理。
+
+## 命令行构建与开发检查
+
+以下命令供使用终端构建、检查模块的协作者使用。前文的 Android Studio 操作可以直接完成应用构建与运行。
+
+Windows PowerShell 在仓库根目录执行以下命令。先将 `JAVA_HOME` 设置为本机实际的 JDK 25 安装目录，再运行仓库自带的 Wrapper。
 
 ```powershell
-$env:JAVA_HOME = '<JDK 25 的安装目录>'
+$env:JAVA_HOME = '<替换为本机 JDK 25 安装目录>'
 $env:Path = "$env:JAVA_HOME/bin;$env:Path"
 .\gradlew.bat :app:assembleDebug
+```
+
+上面的路径占位符需要替换，目录下应存在 `bin/java.exe`。`JAVA_HOME` 为命令行启动提供 JDK，最终构建进程仍按仓库中的 Java 25 条件选择 JDK。[Gradle 构建进程 JDK 选择](https://docs.gradle.org/current/userguide/gradle_daemon.html#sec:daemon_jvm_criteria)
+
+macOS/Linux 在设置本机 JDK 25 的 `JAVA_HOME` 后，使用 `./gradlew :app:assembleDebug`。若出现脚本执行权限错误，先执行 `chmod +x gradlew`。
+
+调试 APK 输出到 `app/build/outputs/apk/debug/app-debug.apk`。Android Studio 的 Run 会自动完成安装，使用终端安装时执行 `adb install -r app/build/outputs/apk/debug/app-debug.apk`，其中 adb 来自 Android SDK Platform-Tools。
+
+各功能可分别检查编译结果。
+
+```powershell
 .\gradlew.bat :feature:browse:assembleDebug
 .\gradlew.bat :feature:registration:assembleDebug
 .\gradlew.bat :feature:engagement:assembleDebug
+```
+
+架构边界检查单独使用 Python 3，供开发自检时执行。
+
+```powershell
 python tools/check_architecture.py
 ```
 
-调试 APK 在 app/build/outputs/apk/debug/app-debug.apk。可通过 Android Studio Run 安装到 API24 及以上设备。
+### 项目固定版本的含义
 
-```powershell
-adb install -r app/build/outputs/apk/debug/app-debug.apk
-```
+| 项目 | 当前值 | 协作者需要做的事 |
+| --- | --- | --- |
+| Gradle | 9.6.0 | 通过仓库中的 Wrapper 或 Android Studio 同步获取 |
+| Android Gradle Plugin | 9.5.1 | 根据 `gradle/libs.versions.toml` 自动下载 |
+| 构建 JDK | 25 | 在本机选择或下载匹配版本 |
+| compileSdk / targetSdk | 37 | 安装 API 37 的编译平台 |
+| minSdk | 24 | 运行设备的 API 级别至少为 24 |
+| Java 源代码级别 | 11 | 编写业务代码时沿用该语言级别 |
 
-初次构建需要访问 Gradle 和 Google Maven 官方仓库。本机首次 Wrapper 下载遇到证书链问题时，本次验证使用同版本的已有 Gradle 9.6.0 安装及缓存执行构建，随后联网补全 AAPT2。构建未关闭 TLS 校验。团队通常直接使用 Wrapper 或 Android Studio 即可。
+AGP 9.5 的默认 Build-Tools 版本为 36.0.0，SDK 平台与 Build-Tools 分别安装。[AGP 9.5 兼容性说明](https://developer.android.com/build/releases/agp-9-5-0-release-notes)
 
 ## 当前功能与演示
 

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="16dp">
+        <TextView android:id="@+id/event_editor_heading" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:textSize="24sp" android:textStyle="bold" />
+        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:paddingTop="8dp" android:text="@string/event_time_hint" />
+        <EditText android:id="@+id/event_input_title" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_title_hint" android:inputType="textCapSentences" android:maxLength="100" />
+        <EditText android:id="@+id/event_input_description" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_description_hint" android:inputType="textMultiLine" android:minLines="3" android:maxLength="10000" />
+        <EditText android:id="@+id/event_input_location" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_location_hint" android:inputType="text" android:maxLength="200" />
+        <EditText android:id="@+id/event_input_category" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_category_hint" android:inputType="text" android:maxLength="50" />
+        <EditText android:id="@+id/event_input_start" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_start_hint" android:inputType="text" android:singleLine="true" />
+        <EditText android:id="@+id/event_input_end" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_end_hint" android:inputType="text" android:singleLine="true" />
+        <EditText android:id="@+id/event_input_deadline" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_deadline_hint" android:inputType="text" android:singleLine="true" />
+        <EditText android:id="@+id/event_input_capacity" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_capacity_hint" android:inputType="number" android:maxLength="10" />
+        <Spinner android:id="@+id/event_input_source_type" android:layout_width="match_parent"
+            android:layout_height="48dp" android:contentDescription="来源类型" />
+        <EditText android:id="@+id/event_input_source_name" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_source_name_hint" android:inputType="text" android:maxLength="200" />
+        <EditText android:id="@+id/event_input_source_url" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:hint="@string/event_source_url_hint" android:inputType="textUri" android:maxLength="2000" />
+        <TextView android:id="@+id/event_editor_status" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:accessibilityLiveRegion="polite" />
+        <Button android:id="@+id/event_save" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="@string/event_save" />
+        <Button android:id="@+id/event_reload" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="重新读取活动" />
+    </LinearLayout>
+</ScrollView>

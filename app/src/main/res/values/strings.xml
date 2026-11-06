@@ -1,0 +1,8 @@
+<resources>
+<string name="app_name">北航活动通</string>
+<string name="shell_title">北航活动通</string>
+<string name="shell_identity">选择演示身份</string>
+<string name="shell_loading">正在读取本地数据</string>
+<string name="shell_events">活动</string><string name="shell_registrations">我的报名</string>
+<string name="shell_favorites">我的收藏</string><string name="shell_admin">活动管理</string>
+</resources>

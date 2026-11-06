@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/shell_main" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="12dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/shell_title" android:textSize="24sp" android:textStyle="bold" android:padding="8dp" />
+    <TextView android:id="@+id/shell_session_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="@string/shell_loading" android:textSize="16sp" />
+    <Spinner android:id="@+id/shell_identity" android:layout_width="match_parent" android:layout_height="48dp" android:contentDescription="@string/shell_identity" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/shell_events"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/shell_events" />
+        <Button
+            android:id="@+id/shell_registrations"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/shell_registrations" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/shell_favorites"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/shell_favorites" />
+        <Button
+            android:id="@+id/shell_admin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/shell_admin" />
+    </LinearLayout>
+    <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
+        <androidx.fragment.app.FragmentContainerView android:id="@+id/shell_screen" android:layout_width="match_parent" android:layout_height="wrap_content" />
+    </ScrollView>
+</LinearLayout>

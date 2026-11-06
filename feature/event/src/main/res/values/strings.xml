@@ -1,0 +1,21 @@
+<resources>
+    <string name="event_admin_title">活动管理</string>
+    <string name="event_admin_hint">新增、编辑和取消活动。报名与提醒联动通过事务端口执行。</string>
+    <string name="event_create">新增活动</string>
+    <string name="event_refresh">刷新</string>
+    <string name="event_title_hint">活动标题（必填）</string>
+    <string name="event_description_hint">活动介绍（必填）</string>
+    <string name="event_location_hint">活动地点（必填）</string>
+    <string name="event_category_hint">分类代码，例如 TECH / SPORT / ACADEMIC</string>
+    <string name="event_start_hint">开始时间 yyyy-MM-dd HH:mm</string>
+    <string name="event_end_hint">结束时间 yyyy-MM-dd HH:mm</string>
+    <string name="event_deadline_hint">报名截止 yyyy-MM-dd HH:mm</string>
+    <string name="event_capacity_hint">活动名额（正整数）</string>
+    <string name="event_source_name_hint">来源说明（必填）</string>
+    <string name="event_source_url_hint">来源链接（官方来源必填）</string>
+    <string name="event_time_hint">时间统一使用北京时间，格式为 yyyy-MM-dd HH:mm。官方来源选择 OFFICIAL，课程演示或人工录入选择 MANUAL。</string>
+    <string name="event_save">保存活动</string>
+    <string name="event_edit">编辑</string>
+    <string name="event_open_detail">查看详情</string>
+    <string name="event_cancel">取消活动</string>
+</resources>

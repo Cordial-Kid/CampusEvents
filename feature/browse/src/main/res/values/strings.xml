@@ -1,0 +1,5 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="browse_refresh">刷新活动</string>
+    <string name="browse_baseline">活动基础入口 · B 可在本模块继续完善时间轴和推荐</string>
+</resources>

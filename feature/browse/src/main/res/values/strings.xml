@@ -1,5 +1,42 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="browse_refresh">刷新活动</string>
-    <string name="browse_baseline">活动基础入口 · B 可在本模块继续完善时间轴和推荐</string>
+    <string name="browse_loading">正在读取活动…</string>
+    <string name="browse_empty">没有符合条件的活动</string>
+    <string name="browse_load_failed">读取活动失败，请刷新重试</string>
+    <string name="browse_session_changed">身份已切换，请刷新活动</string>
+    <string name="browse_search_hint">搜索活动标题或地点</string>
+    <string name="browse_category">活动分类</string>
+    <string name="browse_apply_filter">筛选活动</string>
+    <string-array name="browse_category_filter">
+        <item>全部分类</item>
+        <item>科技</item>
+        <item>体育</item>
+        <item>学术</item>
+    </string-array>
+    <string name="browse_activity_summary">%1$s\n%2$s – %3$s · %4$s\n%5$s · %6$s\n%7$s</string>
+    <string name="browse_detail_meta">%1$s – %2$s\n地点：%3$s\n%4$s · %5$s\n报名截止：%6$s</string>
+    <string name="browse_source">来源：%1$s（%2$s）</string>
+    <string name="browse_source_official">官方来源</string>
+    <string name="browse_source_manual">手工录入</string>
+    <string name="browse_open_source">打开来源链接</string>
+    <string name="browse_no_browser">设备上没有可打开来源链接的应用</string>
+    <string name="browse_upcoming">即将开始</string>
+    <string name="browse_registration_closed">报名已截止</string>
+    <string name="browse_started">进行中</string>
+    <string name="browse_ended">已结束</string>
+    <string name="browse_cancelled">已取消</string>
+    <string name="browse_registration">%1$d 人已报名 · 剩余 %2$d 名 · %3$s</string>
+    <string name="browse_registration_count">%1$d 人已报名 · 剩余 %2$d 名</string>
+    <string name="browse_registration_pending">报名状态待接入</string>
+    <string name="browse_registered">我已报名</string>
+    <string name="browse_not_registered">我未报名</string>
+    <string name="browse_registration_cancelled">我的报名已取消</string>
+    <string name="browse_recommendations">兴趣推荐</string>
+    <string name="browse_edit_interests">设置兴趣</string>
+    <string name="browse_save">保存</string>
+    <string name="browse_interests_prompt">选择感兴趣的分类，查看可报名的活动。</string>
+    <string name="browse_recommendations_pending">报名状态待接入，暂时无法确认推荐活动是否可报名。</string>
+    <string name="browse_recommendations_empty">当前筛选结果中没有符合兴趣且可报名的活动。</string>
+    <string name="browse_recommendation">%1$s\n%2$s\n符合你的%3$s兴趣，当前可报名</string>
 </resources>

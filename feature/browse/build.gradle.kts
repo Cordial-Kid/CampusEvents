@@ -15,4 +15,5 @@ dependencies {
  implementation(libs.fragment)
  implementation(libs.lifecycle.viewmodel)
  implementation(libs.lifecycle.livedata)
+ testImplementation(libs.junit)
 }

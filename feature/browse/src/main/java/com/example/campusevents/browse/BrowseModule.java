@@ -8,7 +8,7 @@ import com.example.campusevents.platform.data.*;
 import com.example.campusevents.platform.port.*;
 import java.util.*;
 
-/** A's minimal host data path. B extends presentation and recommendation here. */
+/** Read-only aggregation for the timeline and activity content panel. */
 public final class BrowseModule implements EventBrowseApi {
     private final DataAccess data;
     private final EventReadPort events;
@@ -23,6 +23,10 @@ public final class BrowseModule implements EventBrowseApi {
     public EventBrowseApi api() { return this; }
     public AsyncCall<List<EventView>> list(EventFilter filter) {
         return data.read(scope -> aggregate(scope, events.list(scope, filter)));
+    }
+    @Override public AsyncCall<BrowseTimeline> timeline(EventFilter filter) {
+        return data.read(scope -> new BrowseTimeline(scope.actor(),
+                aggregate(scope, events.list(scope, filter))));
     }
     public AsyncCall<EventView> detail(long eventId) {
         return data.read(scope -> aggregate(scope,

@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface EventBrowseApi {
     AsyncCall<List<EventView>> list(EventFilter filter);
+    AsyncCall<BrowseTimeline> timeline(EventFilter filter);
     AsyncCall<EventView> detail(long eventId);
 }

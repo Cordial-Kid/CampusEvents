@@ -1,6 +1,86 @@
-<?xml version='1.0' encoding='utf-8'?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:orientation="vertical" android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-    <Button android:id="@+id/browse_refresh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/browse_refresh" />
-    <TextView android:id="@+id/browse_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="16sp" android:paddingBottom="12dp" />
-    <LinearLayout android:id="@+id/browse_rows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:id="@+id/browse_filters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/browse_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/browse_search_hint"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:saveEnabled="false"
+            android:singleLine="true" />
+
+        <Spinner
+            android:id="@+id/browse_category"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:contentDescription="@string/browse_category"
+            android:saveEnabled="false" />
+
+        <Button
+            android:id="@+id/browse_apply_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/browse_apply_filter" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/browse_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/browse_refresh" />
+
+    <LinearLayout
+        android:id="@+id/browse_recommendations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/browse_recommendations"
+            android:textAppearance="@android:style/TextAppearance.Material.Title" />
+
+        <Button
+            android:id="@+id/browse_edit_interests"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/browse_edit_interests" />
+
+        <LinearLayout
+            android:id="@+id/browse_recommendation_rows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/browse_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:accessibilityLiveRegion="polite"
+        android:text="@string/browse_loading"
+        android:textAppearance="@android:style/TextAppearance.Material.Body1" />
+
+    <LinearLayout
+        android:id="@+id/browse_rows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 </LinearLayout>

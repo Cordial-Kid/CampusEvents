@@ -14,7 +14,7 @@
 
 构造阶段只装配依赖。AppGraph 注册 Schema、全部 UI 和 EffectHandler 后再调用 platform.start()。首次真实接入由 A 核对 app/bootstrap/AppGraph，日常功能开发保持在自己的 feature 内。
 
-UI 出口为 event.ui.EventUiEntry(readApi,adminApi,navigator)、browse.BrowseUiEntry(api,invalidation,navigator)、registration.RegistrationUiEntry()、engagement.EngagementUiEntry()。C、D 接管实现时可将自己的 API、Navigator、失效通知通过 UI 构造器注入，首次调整由 A 修改对应装配行。
+UI 出口为 event.ui.EventUiEntry(readApi,adminApi,navigator)、browse.BrowseUiEntry(api,invalidation,navigator)、registration.RegistrationUiEntry(api,attendanceApi,invalidation,navigator)、engagement.EngagementUiEntry()。C、D 接管实现时可将自己的 API、Navigator、失效通知通过 UI 构造器注入，首次调整由 A 修改对应装配行。
 
 ## 2 公共异步协议
 
@@ -247,3 +247,7 @@ A 的会话、活动读写、UI、事务与队列均为真实实现。B 的基�
 Fragment 恢复工厂须在 Activity.super.onCreate 之前安装，工程的宿主按此配置。[Android FragmentManager 官方文档](https://developer.android.com/guide/fragments/fragmentmanager)
 
 本工程沿用 AGP 9.5.1 与 API37，具体工具版本以版本目录和实际构建结果为准。[Android Gradle Plugin 9.5 官方说明](https://developer.android.com/build/releases/agp-9-5-0-release-notes)
+
+## C 当前实现补充
+
+C 已实现原报名 API、两个同步端口和 UI，新增 AttendanceApi 与 AttendanceView，详细规则及验收状态见 [C-handoff](C-handoff.md)。AttendanceApi.get/checkIn/submitFeedback 均异步、学生专属；反馈评分1–5、文本1–500字，签到区间[startAt,endAt)。既有 RegistrationApi 保持兼容。此前 MODULE_NOT_READY 的 C 描述属于初始占位阶段，当前仅 D 保留该占位行为。

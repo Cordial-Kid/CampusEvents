@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+ android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="16dp">
+ <TextView android:id="@+id/reg_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="22sp" android:textStyle="bold" />
+ <Button android:id="@+id/reg_refresh" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="刷新状态" />
+ <TextView android:id="@+id/reg_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:accessibilityLiveRegion="polite" />
+ <LinearLayout android:id="@+id/reg_detail" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
+  <TextView android:id="@+id/reg_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:textSize="16sp" />
+  <Button android:id="@+id/reg_register" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="报名参加" />
+  <Button android:id="@+id/reg_cancel" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="取消报名" />
+  <TextView android:id="@+id/reg_attendance_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:paddingTop="16dp" android:textSize="16sp" />
+  <Button android:id="@+id/reg_checkin" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="活动签到" />
+  <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="活动评价（1–5分）" android:labelFor="@id/reg_rating" />
+  <RatingBar android:id="@+id/reg_rating" style="?android:attr/ratingBarStyleSmall" android:layout_width="wrap_content" android:layout_height="48dp" android:numStars="5" android:stepSize="1" android:isIndicator="false" android:rating="5" />
+  <EditText android:id="@+id/reg_feedback" android:layout_width="match_parent" android:layout_height="wrap_content" android:minHeight="80dp" android:gravity="top" android:inputType="textMultiLine|textCapSentences" android:maxLength="500" android:hint="签到后填写简短反馈（1–500字）" />
+  <Button android:id="@+id/reg_submit" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="保存反馈" />
+ </LinearLayout>
+  <LinearLayout android:id="@+id/reg_rows" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" />
+</LinearLayout>

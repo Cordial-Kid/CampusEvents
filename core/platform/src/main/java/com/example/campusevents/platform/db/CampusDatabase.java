@@ -10,7 +10,7 @@ import java.util.Set;
 
 public final class CampusDatabase extends SQLiteOpenHelper {
     public static final String NAME = "campus_events.db";
-    public static final int VERSION = 1;
+    public static final int VERSION = 2;
     private final List<SchemaContributor> contributors;
 
     public CampusDatabase(Context context, List<SchemaContributor> contributors) {

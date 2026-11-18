@@ -7,7 +7,11 @@ import com.example.campusevents.platform.db.SchemaContributor;
 
 /** Owns only the events table. Related records are owned by C and D. */
 public final class EventSchema implements SchemaContributor {
-    @Override public String id() { return "event"; }
+    @Override public void migrate(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion != 1 || newVersion != 2) throw new IllegalStateException("Unsupported migration");
+        // v2 only adds C's reg_attendance; this owner's tables are unchanged.
+    }
+    public String id() { return "event"; }
 
     @Override public void create(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE events ("

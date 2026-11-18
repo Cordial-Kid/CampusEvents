@@ -39,6 +39,10 @@ public final class EngagementModule {
         public EffectOutcome reconcile(EffectContext context) { return EffectOutcome.MODULE_NOT_READY; }
     }; }
     public static SchemaContributor schema() { return new SchemaContributor() {
+        public void migrate(SQLiteDatabase db, int oldVersion, int newVersion) {
+            if (oldVersion != 1 || newVersion != 2) throw new IllegalStateException("Unsupported migration");
+            // v2 only adds C's reg_attendance; this owner's tables are unchanged.
+        }
         public String id() { return "engagement"; }
         public void create(SQLiteDatabase db) {
             db.execSQL("CREATE TABLE favorites (id INTEGER PRIMARY KEY AUTOINCREMENT,userId INTEGER NOT NULL REFERENCES users(id),eventId INTEGER NOT NULL REFERENCES events(id),createdAt INTEGER NOT NULL,UNIQUE(userId,eventId))");

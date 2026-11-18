@@ -1,6 +1,6 @@
 # 北航活动通数据库字典
 
-版本 v1.0，日期 2026-11-06。数据库 campus_events.db，当前总版本 1，外键启用。字段名保留 camelCase，与 SQLite 建表代码一致。主键 long，时间为 Unix 毫秒。SQLite DDL 是落库的直接依据，字段或状态变化同时更新本文并安排迁移。
+版本 v1.0，日期 2026-11-06。数据库 campus_events.db，当前总版本 2，外键启用。字段名保留 camelCase，与 SQLite 建表代码一致。主键 long，时间为 Unix 毫秒。SQLite DDL 是落库的直接依据，字段或状态变化同时更新本文并安排迁移。
 
 ## 核心表
 
@@ -75,4 +75,8 @@ revision 在设置、关闭、时间重算、发送、过期等意图或业务�
 
 首次创建、种子初始化和升级由 SQLiteOpenHelper 事务管理。SchemaContributor.seed 只在 onCreate 执行。当前工程原始模板没有旧业务数据库，版本1为业务初始结构。未来升级提升总版本并提供逐版本迁移，默认迁移会显式报错，避免静默遗漏字段。
 
-签到反馈与兴趣表尚未建表，C/B 增加选做功能时提出 Schema 与迁移，不修改其他模块表。联动业务不使用触发器跨越所有权，统一通过事务端口执行。
+签到反馈 reg_attendance 已由 C 在版本2建表；兴趣表仍未建表。联动业务不使用触发器跨越所有权，统一通过事务端口执行。
+
+## reg_attendance 归 C（v2 新增）
+
+registrationId INTEGER PRIMARY KEY REFERENCES registrations(id)，checkedInAt INTEGER NOT NULL，rating INTEGER 可空且有值时1–5，feedback TEXT NOT NULL DEFAULT ''且至多500字，submittedAt INTEGER 可空。未反馈时 rating/submittedAt 均空且 feedback 为空；提交后两者非空。业务层要求反馈去空白后1–500字。每个报名最多一条签到反馈。所有权、升级及已验证范围见 [C交接](C-handoff.md)。1→2 仅新增此表，不改变其他既有表与数据，A/D schema 显式接受空迁移。

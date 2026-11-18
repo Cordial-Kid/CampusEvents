@@ -42,7 +42,7 @@ public final class AppGraph {
             throw new IllegalStateException("Required feature implementations are still pending");
         }
         BrowseUiEntry browseUi = new BrowseUiEntry(browse.api(), platform.invalidation(), navigator);
-        RegistrationUiEntry registrationUi = new RegistrationUiEntry();
+        RegistrationUiEntry registrationUi = new RegistrationUiEntry(registrations.api(), registrations.attendanceApi(), platform.invalidation(), navigator);
         EngagementUiEntry engagementUi = new EngagementUiEntry();
         ui.register((FeatureUiEntry) browseUi);
         ui.register((DetailPanelProvider) browseUi);

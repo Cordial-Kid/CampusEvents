@@ -32,8 +32,8 @@ public final class AppGraph {
                 EventModule.schema(), RegistrationModule.schema(), EngagementModule.schema()));
         events = new EventModule(platform.dataAccess());
         RegistrationModule registrations = new RegistrationModule(platform.dataAccess(), events.readPort());
-        EngagementModule engagement = new EngagementModule(platform.dataAccess(), events.readPort(),
-                (eventId, userId) -> notification(context, eventId, userId));
+        EngagementModule engagement = new EngagementModule(context, platform.dataAccess(),
+                events.readPort(), (eventId, userId) -> notification(context, eventId, userId));
         admin = events.createAdmin(registrations.eventPort(), engagement.eventPort());
         BrowseModule browse = new BrowseModule(platform.dataAccess(), events.readPort(),
                 registrations.readPort(), engagement.readPort());
@@ -43,7 +43,9 @@ public final class AppGraph {
         }
         BrowseUiEntry browseUi = new BrowseUiEntry(browse.api(), platform.invalidation(), navigator);
         RegistrationUiEntry registrationUi = new RegistrationUiEntry(registrations.api(), registrations.attendanceApi(), platform.invalidation(), navigator);
-        EngagementUiEntry engagementUi = new EngagementUiEntry();
+        EngagementUiEntry engagementUi = new EngagementUiEntry(
+                engagement.favoriteApi(), engagement.reminderApi(),
+                engagement::requestReconcile, platform.invalidation(), navigator);
         ui.register((FeatureUiEntry) browseUi);
         ui.register((DetailPanelProvider) browseUi);
         ui.register((FeatureUiEntry) registrationUi);

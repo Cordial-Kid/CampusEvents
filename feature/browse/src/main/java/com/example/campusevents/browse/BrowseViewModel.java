@@ -34,7 +34,7 @@ public final class BrowseViewModel extends ViewModel {
         });
     }
 
-    void clear() {
+    void resetState() {
         cancel();
         timeline.setValue(null);
         detail.setValue(null);

@@ -1,6 +1,6 @@
 plugins { alias(libs.plugins.android.library) }
 // Set true only after the required APIs, transaction ports and UI are real.
-extra["integrationReady"] = false
+extra["integrationReady"] = true
 android {
  namespace = "com.example.campusevents.browse"
  compileSdk { version = release(37) }

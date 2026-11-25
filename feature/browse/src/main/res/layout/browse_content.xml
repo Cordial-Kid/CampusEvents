@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/browse_search_hint"
             android:imeOptions="actionSearch"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:saveEnabled="false"
             android:singleLine="true" />

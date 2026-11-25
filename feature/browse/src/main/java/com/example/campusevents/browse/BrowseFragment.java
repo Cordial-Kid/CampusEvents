@@ -86,7 +86,7 @@ public final class BrowseFragment extends Fragment {
         subscription = invalidation.subscribe(change -> {
             if (change.topic == ChangeTopic.SESSION) {
                 dismissInterests();
-                model.clear();
+                model.resetState();
             }
             if (eventId == 0 || change.eventId == 0 || change.eventId == eventId
                     || change.topic == ChangeTopic.SESSION) {
@@ -113,7 +113,7 @@ public final class BrowseFragment extends Fragment {
         View.OnClickListener applyFilter = button -> {
             keyword = search.getText().toString().trim();
             categoryIndex = Math.max(0, category.getSelectedItemPosition());
-            model.clear();
+            model.resetState();
             reload();
         };
         view.findViewById(R.id.browse_apply_filter).setOnClickListener(applyFilter);
@@ -133,7 +133,7 @@ public final class BrowseFragment extends Fragment {
     @Override public void onResume() {
         super.onResume();
         if (model != null) {
-            model.clear();
+            model.resetState();
             reload();
         }
     }

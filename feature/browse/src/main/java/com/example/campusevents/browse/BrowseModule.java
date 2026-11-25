@@ -19,7 +19,7 @@ public final class BrowseModule implements EventBrowseApi {
         this.data = data; this.events = events;
         this.registrations = registrations; this.engagement = engagement;
     }
-    public boolean isReady() { return false; }
+    public boolean isReady() { return true; }
     public EventBrowseApi api() { return this; }
     public AsyncCall<List<EventView>> list(EventFilter filter) {
         return data.read(scope -> aggregate(scope, events.list(scope, filter)));

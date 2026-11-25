@@ -1,8 +1,53 @@
 # B 模块交付与验收
 
-范围为活动时间轴、详情内容面板、报名状态展示、页面刷新和兴趣推荐。B 维护 `feature/browse` 与 `contract/browse`。宿主继续通过 `BrowseUiEntry` 创建 `EVENT_LIST` 和 `CONTENT`。列表和当前身份来自同一个读取范围。报名资格和余量以 C 的摘要为准，尚未接入时显示「待接入」。
+更新于 2026-11-26，基于主分支 930a427f 的 A/B/C/D 真实实现完成联调。
 
-学生可在时间轴设置科技、体育、学术兴趣。偏好按学生 ID 保存在本机的 `browse_interests` 应用设置中。推荐从当前筛选结果中取前三条匹配兴趣且由 C 确认可报名的活动，附分类和可报名理由。
+B 提供北京时间活动时间轴、关键词与分类筛选、详情内容和来源链接、报名状态展示、刷新与兴趣推荐。兴趣偏好按学生 ID 保存在本机，推荐从当前筛选结果取前三条匹配兴趣且 C 确认可报名的活动。
+
+## 本次完成
+
+- 补充 app/src/androidTest/java/com/example/campusevents/BrowseIntegrationTest.java，使用真实 AppGraph、SQLite 和 A/C/D 端口验证 B 的展示。
+- 将 BrowseModule.isReady() 与 integrationReady 设置为 true，正式集成检查通过。
+- 修复 Release 冷启动崩溃。日志报告 BrowseViewModel.clear() 与压缩后的 AndroidX 父类 final 方法冲突，现将内部清屏方法重命名为 resetState()，并更新调用处。修复后重新构建、安装并验证非调试模式启动。
+- 为搜索框声明不参与个人信息自动填充，B 的 Lint 检查无问题。
+
+## 联调验收
+
+环境为 Windows 11、WHPX、Android Emulator 37.3.9、Android 15/API 35 x86_64。构建使用 JDK 25.0.2、Gradle 9.6.0、AGP 9.5.1 和 Android SDK 37。
+
+| 场景 | 验证结果 |
+| --- | --- |
+| 报名与人数刷新 | 学生甲报名后显示本人已报名、余量从 1 变为 0，活动从推荐中移除 |
+| 身份隔离与满额 | 学生乙显示本人未报名，真实报名请求返回 EVENT_FULL |
+| 取消与推荐恢复 | 甲取消后余量恢复为 1，显示本人取消状态，推荐恢复 |
+| 截止、取消与推荐 | 已截止活动不推荐，管理员取消后列表显示已取消并移出推荐 |
+| 管理员编辑 | 修改标题、地点和时间后列表重查显示新内容，详情显示新介绍和来源 |
+| 页面恢复 | 报名后的列表和编辑后的详情经 Activity 重建后仍正确，后台返回后重新读取 |
+| 进程恢复与正式启动 | 强制停止应用后重新启动，身份和兴趣可恢复。临时用本机测试证书签名的 Release 包可启动，确认无 DEBUGGABLE 标记 |
+| 原有展示功能 | 时间轴、筛选、空结果、来源链接和兴趣隔离已在上一轮设备验收通过 |
+
+## 检查结果与复现
+
+| 检查 | 结果 |
+| --- | --- |
+| B 单元测试 | 3 项通过 |
+| 应用设备回归 | 7 项通过，包含新增 B 联调 2 项、原有宿主 4 项及模板测试 1 项 |
+| B lintDebug | No issues found |
+| 架构边界 | 七模块检查通过 |
+| app:verifyFeatureIntegration | 通过 |
+| Debug 与 Release 构建 | 通过 |
+| Release 设备启动 | 修复后通过 |
+
+在已配置 Android SDK、JDK 25 和运行中设备的环境执行。Windows 建议使用全英文项目与 Gradle 缓存路径。
+
+~~~powershell
+.\gradlew.bat :feature:browse:testDebugUnitTest :feature:browse:lintDebug
+.\gradlew.bat :app:verifyFeatureIntegration :app:assembleDebug :app:assembleRelease
+.\gradlew.bat :app:connectedDebugAndroidTest
+python tools/check_architecture.py
+~~~
+
+新增设备测试只删除自己创建的唯一活动及其关联记录，并恢复测试前身份和兴趣。录屏保存在本地 B-final-fixed.mp4。Release 默认输出 app-release-unsigned.apk，最终交付签名由团队使用正式签名配置完成。
 
 ## 演示活动录入单
 
@@ -16,29 +61,3 @@
 
 测试来源链接时，可另录入一条有真实公开公告的活动，选择官方来源，填写公告名称与 HTTP(S) 地址。
 
-## 已执行检查
-
-- 七模块架构边界检查通过。
-- 在全英文路径运行 `:feature:browse:testDebugUnitTest`，JUnit 4.13.2 三项测试通过，覆盖北京时间跨日、截止与起止时刻边界、取消优先，以及推荐过滤和最多三条的规则。
-- 使用 Gradle 9.6.0、JDK 25 与 Android SDK 37 运行 `:feature:browse:assembleDebug` 和 `:app:assembleDebug`，构建通过。生成 `feature/browse/build/outputs/aar/browse-debug.aar` 和 `app/build/outputs/apk/debug/app-debug.apk`，APK 的 v2 签名验证通过。
-
-## 设备验收
-
-2026-11-17 在 Windows 11 使用 WHPX 运行 Android Emulator 37.3.9，虚拟设备为 Android 15（API 35，x86_64）。调试 APK 安装、冷启动成功。
-
-复现时使用 JDK 25 和 Android SDK 37 构建，在 Windows 上使用全英文项目路径与 Gradle 缓存路径。安装调试 APK 后打开「北航活动通」。
-
-```powershell
-.\gradlew.bat :feature:browse:assembleDebug :feature:browse:testDebugUnitTest :app:assembleDebug
-python tools/check_architecture.py
-```
-
-| 场景 | 验收标准 | 状态 |
-| --- | --- | --- |
-| 时间轴与筛选 | 预置活动按北京时间显示日期与时间。按标题 `Android`、分类「体育」及修改后的地点分别筛选。输入不匹配的关键词有空结果提示。 | 模拟器通过 |
-| 详情与来源 | 点击首条活动进入对应详情，检查报名截止和手工来源说明。切换横竖屏后仍显示同一活动。打开测试活动的 HTTPS 来源链接，验证系统浏览器成为前台应用。 | 模拟器通过 |
-| 管理员修改 | 修改活动标题、地点和来源后返回列表。以新地点筛选命中该活动，详情显示修改后的地点和来源。 | 模拟器通过 |
-| 身份与报名 | 当前模块显示「报名状态待接入」。个人报名状态、人数和余量刷新等场景依赖 C 的真实报名端口。 | 待接入提示通过，真实报名待联调 |
-| 兴趣推荐 | 学生甲保存科技兴趣后显示报名状态待接入提示，切到学生乙后仍提示选择兴趣。切回学生甲并重启应用后保留兴趣。真实推荐依赖 C 的可报名状态。 | 偏好隔离和持久化通过，真实推荐待联调 |
-
-录屏记录了分类筛选、空状态、管理员编辑和来源跳转。B 的正式就绪标记在真实报名接口接入并与 A 联调验收后更新。
